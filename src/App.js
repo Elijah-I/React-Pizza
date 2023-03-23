@@ -3,6 +3,7 @@ import { Header } from "./components/Header";
 import { Categories } from "./components/Categories";
 import { Sort } from "./components/Sort";
 import { PizzaItem } from "./components/PizzaItem";
+import pizzas from "./model/pizzas.json";
 import "./assets/scss/app.scss";
 
 function App() {
@@ -18,8 +19,9 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            <PizzaItem title="Чизбургер-пицца" price={395} />
-            <PizzaItem title="Просто-пицца" price={500} />
+            {pizzas.map((pizza) => (
+              <PizzaItem key={pizza.id} {...pizza} />
+            ))}
           </div>
         </div>
       </div>
