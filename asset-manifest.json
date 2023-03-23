@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.421e9c13.css",
+    "main.js": "/static/js/main.3385777f.js",
+    "static/media/Nunito-Light.ttf": "/static/media/Nunito-Light.0ec468f65958d1263b60.ttf",
+    "static/media/Nunito-Regular.ttf": "/static/media/Nunito-Regular.99a3b019e7727ac19479.ttf",
+    "static/media/Nunito-Bold.ttf": "/static/media/Nunito-Bold.f4338623f94e6079de97.ttf",
+    "static/media/Nunito-ExtraBold.ttf": "/static/media/Nunito-ExtraBold.99f1fa27c5aaa2c5afb6.ttf",
+    "static/media/Nunito-Black.ttf": "/static/media/Nunito-Black.969e95ce4a719e43f654.ttf",
+    "static/media/pizza-logo.svg": "/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg",
+    "index.html": "/index.html",
+    "main.421e9c13.css.map": "/static/css/main.421e9c13.css.map",
+    "main.3385777f.js.map": "/static/js/main.3385777f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.421e9c13.css",
+    "static/js/main.3385777f.js"
+  ]
+}
