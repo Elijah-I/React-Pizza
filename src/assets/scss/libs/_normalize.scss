@@ -16,6 +16,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   color: $black;
+  overflow: hidden overlay;
+}
+
+::-webkit-scrollbar {
+  width: 1.2rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba($orange, 0.75);
+  border-radius: 0.6rem;
 }
 
 a,
