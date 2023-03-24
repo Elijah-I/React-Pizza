@@ -1,6 +1,6 @@
 import React from "react";
 
-const sortOptions = ["популярности", "цене", "алфавиту"];
+const sortOptions = ["popularity", "price", "alphabet"];
 
 export const Sort = () => {
   const [sortBy, setSortBy] = React.useState(0);
@@ -26,7 +26,7 @@ export const Sort = () => {
             fill="#2C2C2C"
           />
         </svg>
-        <b>Сортировка по:</b>
+        <b>Sort by:</b>
         <span onClick={() => setOpened(!opened)}>{sortOptions[sortBy]}</span>
       </div>
       {opened && (

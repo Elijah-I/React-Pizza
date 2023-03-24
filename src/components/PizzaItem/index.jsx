@@ -1,6 +1,6 @@
 import React from "react";
 
-const assocType = ["тонкое", "традиционное"];
+const assocType = ["thin", "traditional"];
 
 export const PizzaItem = ({ title, price, imageUrl, types, sizes }) => {
   const [count, setCount] = React.useState(0);
@@ -30,7 +30,7 @@ export const PizzaItem = ({ title, price, imageUrl, types, sizes }) => {
               className={size === selectedSize ? "active" : ""}
               onClick={() => setSelectedSize(size)}
             >
-              {size} см.
+              {size} cm.
             </li>
           ))}
         </ul>
@@ -53,7 +53,7 @@ export const PizzaItem = ({ title, price, imageUrl, types, sizes }) => {
               fill="white"
             />
           </svg>
-          <span>Добавить</span>
+          <span>Add</span>
           <i>{count}</i>
         </div>
       </div>
