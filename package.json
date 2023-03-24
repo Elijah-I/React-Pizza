@@ -2,6 +2,7 @@
   "name": "react-pizza",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://www.croxyproxy.com/",
   "homepage": "https://elijah-i.github.io/React-Pizza/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
