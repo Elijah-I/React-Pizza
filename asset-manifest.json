@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/React-Pizza/static/css/main.638205dc.css",
-    "main.js": "/React-Pizza/static/js/main.7d60f6e0.js",
+    "main.js": "/React-Pizza/static/js/main.f7924d55.js",
     "static/media/Nunito-Light.ttf": "/React-Pizza/static/media/Nunito-Light.0ec468f65958d1263b60.ttf",
     "static/media/Nunito-Regular.ttf": "/React-Pizza/static/media/Nunito-Regular.99a3b019e7727ac19479.ttf",
     "static/media/Nunito-Bold.ttf": "/React-Pizza/static/media/Nunito-Bold.f4338623f94e6079de97.ttf",
@@ -10,10 +10,10 @@
     "static/media/pizza-logo.svg": "/React-Pizza/static/media/pizza-logo.56ac87032d8f6fdf863326acd06c0d97.svg",
     "index.html": "/React-Pizza/index.html",
     "main.638205dc.css.map": "/React-Pizza/static/css/main.638205dc.css.map",
-    "main.7d60f6e0.js.map": "/React-Pizza/static/js/main.7d60f6e0.js.map"
+    "main.f7924d55.js.map": "/React-Pizza/static/js/main.f7924d55.js.map"
   },
   "entrypoints": [
     "static/css/main.638205dc.css",
-    "static/js/main.7d60f6e0.js"
+    "static/js/main.f7924d55.js"
   ]
 }
