@@ -1,13 +1,19 @@
 import React from "react";
 
-const sortOptions = ["popularity", "price", "alphabet"];
+const sortOptions = [
+  { name: "popularity ↑", key: "rating", order: "asc" },
+  { name: "popularity ↓", key: "rating", order: "desc" },
+  { name: "price ↑", key: "price", order: "asc" },
+  { name: "price ↓", key: "price", order: "desc" },
+  { name: "alphabet ↑", key: "title", order: "asc" },
+  { name: "alphabet ↓", key: "title", order: "desc" }
+];
 
-export const Sort = () => {
-  const [sortBy, setSortBy] = React.useState(0);
+export const Sort = ({ sort, setSort }) => {
   const [opened, setOpened] = React.useState(false);
 
-  const applySortBy = (sort) => {
-    setSortBy(sort);
+  const applyBy = (sort) => {
+    setSort(sort);
     setOpened(false);
   };
 
@@ -27,18 +33,27 @@ export const Sort = () => {
           />
         </svg>
         <b>Sort by:</b>
-        <span onClick={() => setOpened(!opened)}>{sortOptions[sortBy]}</span>
+        <span onClick={() => setOpened(!opened)}>
+          {
+            sortOptions.filter((sortOption) => sortOption.key === sort.key)[0]
+              .name
+          }
+        </span>
       </div>
       {opened && (
         <div className="sort__popup">
           <ul>
-            {sortOptions.map((sortOption, key) => (
+            {sortOptions.map((sortOption) => (
               <li
-                key={key}
-                className={key === sortBy ? "active" : ""}
-                onClick={() => applySortBy(key)}
+                key={sortOption.key + sortOption.order}
+                className={
+                  sortOption.key === sort.key && sortOption.order === sort.order
+                    ? "active"
+                    : ""
+                }
+                onClick={() => applyBy(sortOption)}
               >
-                {sortOption}
+                {sortOption.name}
               </li>
             ))}
           </ul>
