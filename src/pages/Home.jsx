@@ -22,6 +22,8 @@ export const Home = () => {
       );
       const items = await result.json();
 
+      window.scrollTo(0, 0);
+
       setItems(items);
       setIsLoading(false);
     };
