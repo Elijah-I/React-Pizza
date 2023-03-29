@@ -1,5 +1,5 @@
 import React from "react";
-import { SearchContext } from "../App";
+import { PaginaionContext, SearchContext } from "../App";
 import { Categories } from "./../components/Categories";
 import { Sort } from "./../components/Sort";
 import { PizzaItem } from "./../components/PizzaItem";
@@ -9,6 +9,7 @@ import { Pagination } from "../components/Pagination";
 import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
 
 export const Home = () => {
+  const { page, setPage } = React.useContext(PaginaionContext);
   const { debouncedSearch } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -19,16 +20,24 @@ export const Home = () => {
     order: "asc"
   });
 
+  const prevSearch = React.useRef(debouncedSearch);
+
   React.useEffect(() => {
     const getItems = async () => {
       setIsLoading(true);
+
+      if (prevSearch.current !== debouncedSearch) {
+        prevSearch.current = debouncedSearch;
+        setPage(1);
+        return;
+      }
 
       const url = new URL(
         "https://641d6897b556e431a8831fcb.mockapi.io/api/v1/items"
       );
       url.searchParams.append("sortBy", sort.key);
       url.searchParams.append("order", sort.order);
-      url.searchParams.append("page", 1);
+      url.searchParams.append("page", page);
       url.searchParams.append("limit", 4);
       if (debouncedSearch) url.searchParams.append("search", debouncedSearch);
       if (category) url.searchParams.append("category", category);
@@ -48,7 +57,7 @@ export const Home = () => {
     };
 
     getItems();
-  }, [category, sort, debouncedSearch]);
+  }, [category, sort, debouncedSearch, page]);
 
   return (
     <div className="container">
