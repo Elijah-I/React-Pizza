@@ -4,6 +4,7 @@ import { Sort } from "./../components/Sort";
 import { PizzaItem } from "./../components/PizzaItem";
 import { PizzaItemSkeleton } from "./../components/PizzaItem/Skeleton";
 import { WithSkeleton } from "./../HOC/WithSkeleton";
+import { Pagination } from "../components/Pagination";
 
 export const Home = () => {
   const [items, setItems] = React.useState([]);
@@ -24,6 +25,8 @@ export const Home = () => {
       );
       url.searchParams.append("sortBy", sort.key);
       url.searchParams.append("order", sort.order);
+      url.searchParams.append("page", 1);
+      url.searchParams.append("limit", 8);
       if (category) url.searchParams.append("category", category);
 
       const result = await fetch(url, {
@@ -61,6 +64,7 @@ export const Home = () => {
           ))}
         </WithSkeleton>
       </div>
+      <Pagination />
     </div>
   );
 };
