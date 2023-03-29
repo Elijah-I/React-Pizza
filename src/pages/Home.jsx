@@ -5,6 +5,7 @@ import { PizzaItem } from "./../components/PizzaItem";
 import { PizzaItemSkeleton } from "./../components/PizzaItem/Skeleton";
 import { WithSkeleton } from "./../HOC/WithSkeleton";
 import { Pagination } from "../components/Pagination";
+import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
 
 export const Home = () => {
   const [items, setItems] = React.useState([]);
@@ -26,7 +27,7 @@ export const Home = () => {
       url.searchParams.append("sortBy", sort.key);
       url.searchParams.append("order", sort.order);
       url.searchParams.append("page", 1);
-      url.searchParams.append("limit", 8);
+      url.searchParams.append("limit", 4);
       if (category) url.searchParams.append("category", category);
 
       const result = await fetch(url, {
@@ -43,7 +44,9 @@ export const Home = () => {
       setIsLoading(false);
     };
 
-    getItems();
+    setTimeout(() => {
+      getItems();
+    }, 1000);
   }, [category, sort]);
 
   return (
@@ -57,14 +60,20 @@ export const Home = () => {
         <WithSkeleton
           isLoading={isLoading}
           Skeleton={PizzaItemSkeleton}
-          repeats={8}
+          repeats={4}
         >
           {items.map((pizza) => (
             <PizzaItem key={pizza.id} {...pizza} />
           ))}
         </WithSkeleton>
       </div>
-      <Pagination />
+      <WithSkeleton
+        isLoading={isLoading}
+        Skeleton={PaginationSkeleton}
+        repeats={1}
+      >
+        <Pagination />
+      </WithSkeleton>
     </div>
   );
 };
