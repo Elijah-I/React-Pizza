@@ -6,12 +6,24 @@
 
   .container {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    gap: 30px;
 
-    @media (max-width: 650px) {
+    @media (max-width: 1024px) {
+      justify-content: center;
+    }
+
+    @media (max-width: 390px) {
       flex-direction: column;
       gap: 20px;
+    }
+  }
+
+  &__cart {
+    margin-left: auto;
+    @media (max-width: 1024px) {
+      margin-left: 0;
     }
   }
 
