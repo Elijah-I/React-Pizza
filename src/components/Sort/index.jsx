@@ -1,4 +1,5 @@
 import React from "react";
+import { PaginaionContext } from "../../App";
 
 const sortOptions = [
   { name: "popularity ↑", key: "rating", order: "asc" },
@@ -10,9 +11,11 @@ const sortOptions = [
 ];
 
 export const Sort = ({ sort, setSort }) => {
+  const { setPage } = React.useContext(PaginaionContext);
   const [opened, setOpened] = React.useState(false);
 
-  const applyBy = (sort) => {
+  const applySort = (sort) => {
+    setPage(1);
     setSort(sort);
     setOpened(false);
   };
@@ -51,7 +54,7 @@ export const Sort = ({ sort, setSort }) => {
                     ? "active"
                     : ""
                 }
-                onClick={() => applyBy(sortOption)}
+                onClick={() => applySort(sortOption)}
               >
                 {sortOption.name}
               </li>

@@ -9,7 +9,7 @@ import { Pagination } from "../components/Pagination";
 import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
 
 export const Home = () => {
-  const { page, setPage } = React.useContext(PaginaionContext);
+  const { page } = React.useContext(PaginaionContext);
   const { debouncedSearch } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -20,27 +20,21 @@ export const Home = () => {
     order: "asc"
   });
 
-  const prevSearch = React.useRef(debouncedSearch);
-
   React.useEffect(() => {
     const getItems = async () => {
       setIsLoading(true);
 
-      if (prevSearch.current !== debouncedSearch) {
-        prevSearch.current = debouncedSearch;
-        setPage(1);
-        return;
-      }
-
       const url = new URL(
         "https://641d6897b556e431a8831fcb.mockapi.io/api/v1/items"
       );
-      url.searchParams.append("sortBy", sort.key);
-      url.searchParams.append("order", sort.order);
-      url.searchParams.append("page", page);
-      url.searchParams.append("limit", 4);
       if (debouncedSearch) url.searchParams.append("search", debouncedSearch);
-      if (category) url.searchParams.append("category", category);
+      else {
+        url.searchParams.append("sortBy", sort.key);
+        url.searchParams.append("order", sort.order);
+        url.searchParams.append("page", page);
+        url.searchParams.append("limit", 4);
+        if (category) url.searchParams.append("category", category);
+      }
 
       const result = await fetch(url, {
         headers: {
@@ -62,8 +56,8 @@ export const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories id={category} setId={setCategory} />
-        <Sort sort={sort} setSort={setSort} />
+        {!debouncedSearch && <Categories id={category} setId={setCategory} />}
+        {!debouncedSearch && <Sort sort={sort} setSort={setSort} />}
       </div>
       <h2 className="content__title">All pizzas</h2>
       <div className="content__items">
@@ -77,13 +71,15 @@ export const Home = () => {
           ))}
         </WithSkeleton>
       </div>
-      <WithSkeleton
-        isLoading={isLoading}
-        Skeleton={PaginationSkeleton}
-        repeats={1}
-      >
-        <Pagination />
-      </WithSkeleton>
+      {!debouncedSearch && (
+        <WithSkeleton
+          isLoading={isLoading}
+          Skeleton={PaginationSkeleton}
+          repeats={1}
+        >
+          <Pagination />
+        </WithSkeleton>
+      )}
     </div>
   );
 };
