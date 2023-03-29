@@ -1,4 +1,5 @@
 import React from "react";
+import { SearchContext } from "../App";
 import { Categories } from "./../components/Categories";
 import { Sort } from "./../components/Sort";
 import { PizzaItem } from "./../components/PizzaItem";
@@ -8,6 +9,7 @@ import { Pagination } from "../components/Pagination";
 import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
 
 export const Home = () => {
+  const { debouncedSearch } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [category, setCategory] = React.useState(0);
@@ -28,6 +30,7 @@ export const Home = () => {
       url.searchParams.append("order", sort.order);
       url.searchParams.append("page", 1);
       url.searchParams.append("limit", 4);
+      if (debouncedSearch) url.searchParams.append("search", debouncedSearch);
       if (category) url.searchParams.append("category", category);
 
       const result = await fetch(url, {
@@ -44,10 +47,8 @@ export const Home = () => {
       setIsLoading(false);
     };
 
-    setTimeout(() => {
-      getItems();
-    }, 1000);
-  }, [category, sort]);
+    getItems();
+  }, [category, sort, debouncedSearch]);
 
   return (
     <div className="container">
