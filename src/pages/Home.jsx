@@ -18,7 +18,8 @@ export const Home = () => {
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [debouncedSearch] = useDebounce(search, 300);
+
+  let [debouncedSearch] = useDebounce(search, search ? 300 : 0);
 
   React.useEffect(() => {
     const getItems = async () => {

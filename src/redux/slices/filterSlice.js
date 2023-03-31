@@ -13,10 +13,10 @@ const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    setCategory: (state, action) => {
+    setCategory(state, action) {
       state.category = action.payload;
     },
-    setSort: (state, action) => {
+    setSort(state, action) {
       state.sort = action.payload;
     }
   }
