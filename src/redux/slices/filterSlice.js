@@ -1,12 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { sortOptions } from "../../components/Sort";
+
+const searchParams = Object.fromEntries(
+  new URLSearchParams(window.location.search)
+);
 
 const initialState = {
-  category: 0,
-  sort: {
-    name: "popularity ↑",
-    key: "rating",
-    order: "asc"
-  }
+  category: Number(searchParams.category || 0),
+  sort:
+    sortOptions
+      .filter(
+        (option) =>
+          option.key === searchParams.sortBy &&
+          option.order === searchParams.order
+      )
+      .pop() || sortOptions[0]
 };
 
 const filterSlice = createSlice({

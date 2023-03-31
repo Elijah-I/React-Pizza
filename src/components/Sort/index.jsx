@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSort } from "../../redux/slices/filterSlice";
 import { setPage } from "../../redux/slices/paginationSlice";
 
-const sortOptions = [
+export const sortOptions = [
   { name: "popularity ↑", key: "rating", order: "asc" },
   { name: "popularity ↓", key: "rating", order: "desc" },
   { name: "price ↑", key: "price", order: "asc" },

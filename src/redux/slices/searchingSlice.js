@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const searchParams = Object.fromEntries(
+  new URLSearchParams(window.location.search)
+);
+
 const initialState = {
-  search: ""
+  search: searchParams.search || ""
 };
 
 const searchingSlice = createSlice({

@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const searchParams = Object.fromEntries(
+  new URLSearchParams(window.location.search)
+);
+
 const initialState = {
-  page: 1
+  page: Number(searchParams.page || 1)
 };
 
 const paginationSlice = createSlice({

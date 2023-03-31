@@ -1,4 +1,6 @@
 import React from "react";
+import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 import { Categories } from "./../components/Categories";
 import { Sort } from "./../components/Sort";
 import { PizzaItem } from "./../components/PizzaItem";
@@ -8,7 +10,6 @@ import { Pagination } from "../components/Pagination";
 import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
 import { useSelector } from "react-redux";
 import { useDebounce } from "use-debounce";
-import axios from "axios";
 
 export const Home = () => {
   const {
@@ -20,26 +21,34 @@ export const Home = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isFirstLoading, setIsFirstLoading] = React.useState(true);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   let [debouncedSearch] = useDebounce(search, search ? 300 : 0);
+
+  React.useEffect(() => {
+    const params = new URLSearchParams({});
+
+    if (debouncedSearch) params.append("search", debouncedSearch);
+    else {
+      if (category) params.append("category", category);
+      params.append("sortBy", sort.key);
+      params.append("order", sort.order);
+      params.append("page", page);
+    }
+
+    setSearchParams(params);
+  }, [category, sort, debouncedSearch, page]);
 
   React.useEffect(() => {
     const getItems = async () => {
       setIsLoading(true);
 
-      const url = new URL(
-        "https://641d6897b556e431a8831fcb.mockapi.io/api/v1/items"
-      );
-      if (debouncedSearch) url.searchParams.append("search", debouncedSearch);
-      else {
-        url.searchParams.append("sortBy", sort.key);
-        url.searchParams.append("order", sort.order);
-        url.searchParams.append("page", page);
-        url.searchParams.append("limit", 4);
-        if (category) url.searchParams.append("category", category);
-      }
+      searchParams.append("limit", 4);
 
-      const response = await axios.get(url);
+      const response = await axios.get(
+        "https://641d6897b556e431a8831fcb.mockapi.io/api/v1/items",
+        { params: searchParams }
+      );
 
       window.scrollTo(0, 0);
 
@@ -49,7 +58,7 @@ export const Home = () => {
     };
 
     getItems();
-  }, [category, sort, debouncedSearch, page]);
+  }, [searchParams]);
 
   return (
     <div className="container">
