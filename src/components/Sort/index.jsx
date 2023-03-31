@@ -1,5 +1,7 @@
 import React from "react";
 import { PaginaionContext } from "../../App";
+import { useDispatch, useSelector } from "react-redux";
+import { setSort } from "../../redux/slices/filterSlice";
 
 const sortOptions = [
   { name: "popularity ↑", key: "rating", order: "asc" },
@@ -10,13 +12,15 @@ const sortOptions = [
   { name: "alphabet ↓", key: "title", order: "desc" }
 ];
 
-export const Sort = ({ sort, setSort }) => {
-  const { setPage } = React.useContext(PaginaionContext);
+export const Sort = () => {
   const [opened, setOpened] = React.useState(false);
+  const { setPage } = React.useContext(PaginaionContext);
+  const { sort } = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
 
   const applySort = (sort) => {
     setPage(1);
-    setSort(sort);
+    dispatch(setSort(sort));
     setOpened(false);
   };
 

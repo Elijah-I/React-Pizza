@@ -10,17 +10,12 @@ import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
 import { useSelector } from "react-redux";
 
 export const Home = () => {
-  const { category } = useSelector((state) => state.filter);
+  const { category, sort } = useSelector((state) => state.filter);
 
   const { page } = React.useContext(PaginaionContext);
   const { debouncedSearch } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [sort, setSort] = React.useState({
-    name: "popularity ↑",
-    key: "rating",
-    order: "asc"
-  });
 
   React.useEffect(() => {
     const getItems = async () => {
@@ -59,7 +54,7 @@ export const Home = () => {
     <div className="container">
       <div className="content__top">
         {!debouncedSearch && <Categories />}
-        {!debouncedSearch && <Sort sort={sort} setSort={setSort} />}
+        {!debouncedSearch && <Sort />}
       </div>
       <h2 className="content__title">All pizzas</h2>
       <div className="content__items">
