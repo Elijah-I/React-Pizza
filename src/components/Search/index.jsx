@@ -2,10 +2,17 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearch } from "../../redux/slices/searchingSlice";
 import styles from "./index.module.scss";
+import { current } from "@reduxjs/toolkit";
 
 export const Search = () => {
   const { search } = useSelector((state) => state.searching);
   const dispatch = useDispatch();
+  const inputRef = React.useRef();
+
+  const dropSearch = () => {
+    dispatch(setSearch(""));
+    inputRef.current.focus();
+  };
 
   return (
     <div className={styles.search}>
@@ -24,13 +31,11 @@ export const Search = () => {
         onChange={(e) => dispatch(setSearch(e.target.value))}
         className={styles.search__input}
         type="search"
+        ref={inputRef}
         placeholder="Pizza search..."
       />
       {search && (
-        <div
-          className={styles.search__drop}
-          onClick={() => dispatch(setSearch(""))}
-        >
+        <div className={styles.search__drop} onClick={dropSearch}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 1024 1024"
