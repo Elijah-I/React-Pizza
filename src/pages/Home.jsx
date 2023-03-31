@@ -18,6 +18,7 @@ export const Home = () => {
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isFirstLoading, setIsFirstLoading] = React.useState(true);
 
   let [debouncedSearch] = useDebounce(search, search ? 300 : 0);
 
@@ -49,6 +50,7 @@ export const Home = () => {
 
       setItems(items);
       setIsLoading(false);
+      setIsFirstLoading(false);
     };
 
     getItems();
@@ -74,7 +76,7 @@ export const Home = () => {
       </div>
       {!debouncedSearch && (
         <WithSkeleton
-          isLoading={isLoading}
+          isLoading={isFirstLoading}
           Skeleton={PaginationSkeleton}
           repeats={1}
         >
