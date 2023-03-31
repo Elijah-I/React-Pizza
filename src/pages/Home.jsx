@@ -10,9 +10,11 @@ import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
 import { useSelector } from "react-redux";
 
 export const Home = () => {
-  const { category, sort } = useSelector((state) => state.filter);
+  const {
+    filter: { category, sort },
+    pagination: { page }
+  } = useSelector((state) => state);
 
-  const { page } = React.useContext(PaginaionContext);
   const { debouncedSearch } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);

@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { PaginaionContext } from "../../App";
 import { setCategory } from "../../redux/slices/filterSlice";
+import { setPage } from "../../redux/slices/paginationSlice";
 
 const categories = [
   { name: "All", id: 0 },
@@ -13,13 +13,12 @@ const categories = [
 ];
 
 export const Categories = () => {
-  const { setPage } = React.useContext(PaginaionContext);
   const { category: id } = useSelector((state) => state.filter);
   const dispatch = useDispatch();
 
   const applyCategory = (id) => {
     dispatch(setCategory(id));
-    setPage(1);
+    dispatch(setPage(1));
   };
 
   return (

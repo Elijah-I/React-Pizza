@@ -8,21 +8,18 @@ export const SearchContext = React.createContext();
 export const PaginaionContext = React.createContext();
 
 export function App() {
-  const [page, setPage] = React.useState(1);
   const [search, setSearch] = React.useState("");
   const [debouncedSearch] = useDebounce(search, 300);
 
   return (
-    <PaginaionContext.Provider value={{ page, setPage }}>
-      <SearchContext.Provider value={{ search, debouncedSearch, setSearch }}>
-        <div className="wrapper">
-          <Header />
+    <SearchContext.Provider value={{ search, debouncedSearch, setSearch }}>
+      <div className="wrapper">
+        <Header />
 
-          <div className="content">
-            <Outlet />
-          </div>
+        <div className="content">
+          <Outlet />
         </div>
-      </SearchContext.Provider>
-    </PaginaionContext.Provider>
+      </div>
+    </SearchContext.Provider>
   );
 }

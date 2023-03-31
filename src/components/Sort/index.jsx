@@ -1,7 +1,7 @@
 import React from "react";
-import { PaginaionContext } from "../../App";
 import { useDispatch, useSelector } from "react-redux";
 import { setSort } from "../../redux/slices/filterSlice";
+import { setPage } from "../../redux/slices/paginationSlice";
 
 const sortOptions = [
   { name: "popularity ↑", key: "rating", order: "asc" },
@@ -14,12 +14,11 @@ const sortOptions = [
 
 export const Sort = () => {
   const [opened, setOpened] = React.useState(false);
-  const { setPage } = React.useContext(PaginaionContext);
   const { sort } = useSelector((state) => state.filter);
   const dispatch = useDispatch();
 
   const applySort = (sort) => {
-    setPage(1);
+    dispatch(setPage(1));
     dispatch(setSort(sort));
     setOpened(false);
   };
