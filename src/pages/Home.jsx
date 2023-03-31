@@ -7,13 +7,15 @@ import { PizzaItemSkeleton } from "./../components/PizzaItem/Skeleton";
 import { WithSkeleton } from "./../HOC/WithSkeleton";
 import { Pagination } from "../components/Pagination";
 import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
+import { useSelector } from "react-redux";
 
 export const Home = () => {
+  const { category } = useSelector((state) => state.filter);
+
   const { page } = React.useContext(PaginaionContext);
   const { debouncedSearch } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [category, setCategory] = React.useState(0);
   const [sort, setSort] = React.useState({
     name: "popularity ↑",
     key: "rating",
@@ -56,7 +58,7 @@ export const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        {!debouncedSearch && <Categories id={category} setId={setCategory} />}
+        {!debouncedSearch && <Categories />}
         {!debouncedSearch && <Sort sort={sort} setSort={setSort} />}
       </div>
       <h2 className="content__title">All pizzas</h2>

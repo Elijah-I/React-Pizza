@@ -1,5 +1,7 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { PaginaionContext } from "../../App";
+import { setCategory } from "../../redux/slices/filterSlice";
 
 const categories = [
   { name: "All", id: 0 },
@@ -10,11 +12,13 @@ const categories = [
   { name: "Сalzone", id: 5 }
 ];
 
-export const Categories = ({ id, setId }) => {
+export const Categories = () => {
   const { setPage } = React.useContext(PaginaionContext);
+  const { category: id } = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
 
   const applyCategory = (id) => {
-    setId(id);
+    dispatch(setCategory(id));
     setPage(1);
   };
 
