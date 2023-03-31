@@ -1,5 +1,4 @@
 import React from "react";
-import { PaginaionContext, SearchContext } from "../App";
 import { Categories } from "./../components/Categories";
 import { Sort } from "./../components/Sort";
 import { PizzaItem } from "./../components/PizzaItem";
@@ -8,16 +7,18 @@ import { WithSkeleton } from "./../HOC/WithSkeleton";
 import { Pagination } from "../components/Pagination";
 import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
 import { useSelector } from "react-redux";
+import { useDebounce } from "use-debounce";
 
 export const Home = () => {
   const {
     filter: { category, sort },
-    pagination: { page }
+    pagination: { page },
+    searching: { search }
   } = useSelector((state) => state);
 
-  const { debouncedSearch } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [debouncedSearch] = useDebounce(search, 300);
 
   React.useEffect(() => {
     const getItems = async () => {

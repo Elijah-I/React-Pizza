@@ -1,9 +1,11 @@
 import React from "react";
-import { SearchContext } from "../../App";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearch } from "../../redux/slices/searchingSlice";
 import styles from "./index.module.scss";
 
 export const Search = () => {
-  const { search, setSearch } = React.useContext(SearchContext);
+  const { search } = useSelector((state) => state.searching);
+  const dispatch = useDispatch();
 
   return (
     <div className={styles.search}>
@@ -19,13 +21,16 @@ export const Search = () => {
       </div>
       <input
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => dispatch(setSearch(e.target.value))}
         className={styles.search__input}
         type="search"
         placeholder="Pizza search..."
       />
       {search && (
-        <div className={styles.search__drop} onClick={() => setSearch("")}>
+        <div
+          className={styles.search__drop}
+          onClick={() => dispatch(setSearch(""))}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 1024 1024"
