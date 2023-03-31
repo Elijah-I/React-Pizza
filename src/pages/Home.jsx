@@ -8,6 +8,7 @@ import { Pagination } from "../components/Pagination";
 import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
 import { useSelector } from "react-redux";
 import { useDebounce } from "use-debounce";
+import axios from "axios";
 
 export const Home = () => {
   const {
@@ -38,17 +39,11 @@ export const Home = () => {
         if (category) url.searchParams.append("category", category);
       }
 
-      const result = await fetch(url, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json"
-        }
-      });
-      const items = await result.json();
+      const response = await axios.get(url);
 
       window.scrollTo(0, 0);
 
-      setItems(items);
+      setItems(response.data);
       setIsLoading(false);
       setIsFirstLoading(false);
     };
