@@ -1,12 +1,10 @@
 import React from "react";
 import ReactPaginate from "react-paginate";
+import { useCustomParams } from "../../hooks/useCustomParams";
 import styles from "./index.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { setPage } from "../../redux/slices/paginationSlice";
 
 export const Pagination = () => {
-  const { page } = useSelector((state) => state.pagination);
-  const dispatch = useDispatch();
+  const [{ page }, setCustomParams] = useCustomParams();
 
   return (
     <ReactPaginate
@@ -14,7 +12,7 @@ export const Pagination = () => {
       breakLabel="..."
       previousLabel="<"
       nextLabel=">"
-      onPageChange={(e) => dispatch(setPage(e.selected + 1))}
+      onPageChange={(e) => setCustomParams({ page: e.selected + 1 })}
       pageCount={3}
       forcePage={page - 1}
       pageRangeDisplayed={3}

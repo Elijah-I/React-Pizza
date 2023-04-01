@@ -1,16 +1,13 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setSearch } from "../../redux/slices/searchingSlice";
+import { useCustomParams } from "../../hooks/useCustomParams";
 import styles from "./index.module.scss";
-import { current } from "@reduxjs/toolkit";
 
 export const Search = () => {
-  const { search } = useSelector((state) => state.searching);
-  const dispatch = useDispatch();
+  const [{ search }, setCustomParams] = useCustomParams();
   const inputRef = React.useRef();
 
   const dropSearch = () => {
-    dispatch(setSearch(""));
+    setCustomParams({ search: "" });
     inputRef.current.focus();
   };
 
@@ -28,7 +25,7 @@ export const Search = () => {
       </div>
       <input
         value={search}
-        onChange={(e) => dispatch(setSearch(e.target.value))}
+        onChange={(e) => setCustomParams({ search: e.target.value })}
         className={styles.search__input}
         type="search"
         ref={inputRef}

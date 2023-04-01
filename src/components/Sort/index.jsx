@@ -1,26 +1,17 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setSort } from "../../redux/slices/filterSlice";
-import { setPage } from "../../redux/slices/paginationSlice";
-
-export const sortOptions = [
-  { name: "popularity ↑", key: "rating", order: "asc" },
-  { name: "popularity ↓", key: "rating", order: "desc" },
-  { name: "price ↑", key: "price", order: "asc" },
-  { name: "price ↓", key: "price", order: "desc" },
-  { name: "alphabet ↑", key: "title", order: "asc" },
-  { name: "alphabet ↓", key: "title", order: "desc" }
-];
+import { useCustomParams } from "../../hooks/useCustomParams";
 
 export const Sort = () => {
   const [opened, setOpened] = React.useState(false);
-  const { sort } = useSelector((state) => state.filter);
-  const dispatch = useDispatch();
+  const [{ sort }, setCustomParams, { sortOptions }] = useCustomParams();
 
   const applySort = (sort) => {
-    dispatch(setPage(1));
-    dispatch(setSort(sort));
+    setCustomParams({ sortBy: sort.key, order: sort.order, page: 1 });
     setOpened(false);
+  };
+
+  const isSelected = (sortOption) => {
+    return sortOption.key === sort.key && sortOption.order === sort.order;
   };
 
   return (
@@ -40,10 +31,7 @@ export const Sort = () => {
         </svg>
         <b>Sort by:</b>
         <span onClick={() => setOpened(!opened)}>
-          {
-            sortOptions.filter((sortOption) => sortOption.key === sort.key)[0]
-              .name
-          }
+          {sortOptions.filter(isSelected)[0].name}
         </span>
       </div>
       {opened && (
@@ -52,11 +40,7 @@ export const Sort = () => {
             {sortOptions.map((sortOption) => (
               <li
                 key={sortOption.key + sortOption.order}
-                className={
-                  sortOption.key === sort.key && sortOption.order === sort.order
-                    ? "active"
-                    : ""
-                }
+                className={isSelected(sortOption) ? "active" : ""}
                 onClick={() => applySort(sortOption)}
               >
                 {sortOption.name}

@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
+import { useCustomParams } from "../hooks/useCustomParams";
 import { Categories } from "./../components/Categories";
 import { Sort } from "./../components/Sort";
 import { PizzaItem } from "./../components/PizzaItem";
@@ -8,57 +8,53 @@ import { PizzaItemSkeleton } from "./../components/PizzaItem/Skeleton";
 import { WithSkeleton } from "./../HOC/WithSkeleton";
 import { Pagination } from "../components/Pagination";
 import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
-import { useSelector } from "react-redux";
 import { useDebounce } from "use-debounce";
 
+const getItems = async (category, sort, page, search) => {
+  let params = {};
+
+  if (search) params = { search };
+  else {
+    params.limit = 4;
+    params.page = page || 1;
+
+    if (category) params.category = category;
+    if (sort) {
+      params.sortBy = sort.key;
+      params.order = sort.order;
+    }
+  }
+
+  const response = await axios.get(
+    "https://641d6897b556e431a8831fcb.mockapi.io/api/v1/items",
+    { params: new URLSearchParams(params) }
+  );
+
+  return response.data;
+};
+
 export const Home = () => {
-  const {
-    filter: { category, sort },
-    pagination: { page },
-    searching: { search }
-  } = useSelector((state) => state);
+  const [{ category, search, sort, page }] = useCustomParams();
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isFirstLoading, setIsFirstLoading] = React.useState(true);
-  const [searchParams, setSearchParams] = useSearchParams();
 
   let [debouncedSearch] = useDebounce(search, search ? 300 : 0);
 
   React.useEffect(() => {
-    const params = new URLSearchParams({});
-
-    if (debouncedSearch) params.append("search", debouncedSearch);
-    else {
-      if (category) params.append("category", category);
-      params.append("sortBy", sort.key);
-      params.append("order", sort.order);
-      params.append("page", page);
-    }
-
-    setSearchParams(params);
-  }, [category, sort, debouncedSearch, page]);
-
-  React.useEffect(() => {
-    const getItems = async () => {
+    const applyFilters = async () => {
       setIsLoading(true);
 
-      searchParams.append("limit", 4);
+      const items = await getItems(category, sort, page, debouncedSearch);
 
-      const response = await axios.get(
-        "https://641d6897b556e431a8831fcb.mockapi.io/api/v1/items",
-        { params: searchParams }
-      );
-
-      window.scrollTo(0, 0);
-
-      setItems(response.data);
+      setItems(items);
       setIsLoading(false);
       setIsFirstLoading(false);
     };
 
-    getItems();
-  }, [searchParams]);
+    applyFilters();
+  }, [category, sort, page, debouncedSearch]);
 
   return (
     <div className="container">
