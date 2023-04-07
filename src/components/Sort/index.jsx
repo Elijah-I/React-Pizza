@@ -2,6 +2,7 @@ import React from "react";
 import { useCustomParams } from "../../hooks/useCustomParams";
 
 export const Sort = () => {
+  const sortRef = React.useRef(null);
   const [opened, setOpened] = React.useState(false);
   const [{ sort }, setCustomParams, { sortOptions }] = useCustomParams();
 
@@ -14,8 +15,20 @@ export const Sort = () => {
     return sortOption.key === sort.key && sortOption.order === sort.order;
   };
 
+  React.useEffect(() => {
+    const body = document.body;
+    const clickHandler = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setOpened(false);
+      }
+    };
+
+    body.addEventListener("click", clickHandler);
+    return () => body.removeEventListener("click", clickHandler);
+  }, [opened]);
+
   return (
-    <div className="sort">
+    <div className="sort" ref={sortRef}>
       <div className="sort__label">
         <svg
           width="10"
