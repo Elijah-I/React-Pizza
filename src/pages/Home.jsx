@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { useCustomParams } from "../hooks/useCustomParams";
 import { Categories } from "./../components/Categories";
 import { Sort } from "./../components/Sort";
@@ -9,51 +8,19 @@ import { WithSkeleton } from "./../HOC/WithSkeleton";
 import { Pagination } from "../components/Pagination";
 import { PaginationSkeleton } from "./../components/Pagination/Skeleton";
 import { useDebounce } from "use-debounce";
-
-const getItems = async (category, sort, page, search) => {
-  let params = {};
-
-  if (search) params = { search };
-  else {
-    params.limit = 4;
-    params.page = page || 1;
-
-    if (category) params.category = category;
-    if (sort) {
-      params.sortBy = sort.key;
-      params.order = sort.order;
-    }
-  }
-
-  const response = await axios.get(
-    "https://641d6897b556e431a8831fcb.mockapi.io/api/v1/items",
-    { params: new URLSearchParams(params) }
-  );
-
-  return response.data;
-};
+import { useDispatch, useSelector } from "react-redux";
+import { getPizzas } from "../redux/slices/pizzaSlice";
 
 export const Home = () => {
+  const dispatch = useDispatch();
   const [{ category, search, sort, page }] = useCustomParams();
-
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [isFirstLoading, setIsFirstLoading] = React.useState(true);
-
   let [debouncedSearch] = useDebounce(search, search ? 300 : 0);
+  const { items, isLoading, isFirstLoading } = useSelector(
+    (state) => state.pizzas
+  );
 
   React.useEffect(() => {
-    const applyFilters = async () => {
-      setIsLoading(true);
-
-      const items = await getItems(category, sort, page, debouncedSearch);
-
-      setItems(items);
-      setIsLoading(false);
-      setIsFirstLoading(false);
-    };
-
-    applyFilters();
+    dispatch(getPizzas(category, sort, page, debouncedSearch));
   }, [category, sort, page, debouncedSearch]);
 
   return (
