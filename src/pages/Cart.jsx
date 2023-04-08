@@ -1,30 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import cartSrc from "./../assets/icons/cart.svg";
 import clearSrc from "./../assets/icons/clear.svg";
 import backSrc from "./../assets/icons/back.svg";
 import { CartItem } from "../components/CartItem";
-import { Link } from "react-router-dom";
 import { dropItems } from "../redux/slices/cartSlice";
+import { EmtyCart } from "../components/EmptyCart";
 
 export const Cart = () => {
   const dispatch = useDispatch();
   const { items, totalPrice, totalCount } = useSelector((state) => state.cart);
 
-  const back = (
-    <Link to="/" className="button button--outline button--add go-back-btn">
-      <img className="content__icon" src={backSrc} alt="back icon" />
-      <span className="back">Back</span>
-    </Link>
-  );
-
-  if (!items.length)
-    return (
-      <div className="content__null">
-        <b>Cart is empty</b>
-        <div className="cart__bottom-buttons">{back}</div>
-      </div>
-    );
+  if (!items.length) return <EmtyCart />;
 
   return (
     <div className="container container--cart">
@@ -55,7 +43,13 @@ export const Cart = () => {
             </span>
           </div>
           <div className="cart__bottom-buttons">
-            {back}
+            <Link
+              to="/"
+              className="button button--outline button--add go-back-btn"
+            >
+              <img className="content__icon" src={backSrc} alt="back icon" />
+              <span className="back">Back</span>
+            </Link>
             <div className="button pay-btn">
               <span>Buy now</span>
             </div>
