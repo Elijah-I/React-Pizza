@@ -6,6 +6,12 @@ export const CartItem = (data) => {
   const dispacth = useDispatch();
   const { id, title, price, imageUrl, type, size, count } = data;
 
+  const remove = () => {
+    if (window.confirm("Are you sure you want to remove this posiiton?")) {
+      dispacth(removeItem({ id, size, type }));
+    }
+  };
+
   return (
     <div className="cart__item">
       <div className="cart__item-img">
@@ -66,10 +72,7 @@ export const CartItem = (data) => {
         <b>{price * count} ₽</b>
       </div>
       <div className="cart__item-remove">
-        <div
-          className="button button--outline button--circle"
-          onClick={() => dispacth(removeItem({ id, size, type }))}
-        >
+        <div className="button button--outline button--circle" onClick={remove}>
           <svg
             width="10"
             height="10"
