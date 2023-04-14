@@ -24,9 +24,14 @@ const router = createBrowserRouter(
   { basename: process.env.PUBLIC_URL }
 );
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>
-);
+const rootElement = document.getElementById("root");
+
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+
+  root.render(
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
+}
