@@ -25,11 +25,13 @@ export const Home = () => {
 
   return (
     <div className="container">
-      <div className="content__top">
-        {!debouncedSearch && <Categories />}
-        {!debouncedSearch && <Sort />}
-      </div>
-      <h2 className="content__title">All pizzas</h2>
+      {!debouncedSearch && (
+        <div className="content__top">
+          <Categories />
+          <Sort />
+        </div>
+      )}
+      {!debouncedSearch && <h2 className="content__title">All pizzas</h2>}
       <div className="content__items">
         <WithSkeleton
           isLoading={isLoading}
