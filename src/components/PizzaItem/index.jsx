@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/slices/cartSlice";
-import useWhyDidYouUpdate from "ahooks/lib/useWhyDidYouUpdate";
 
 const assocType = ["thin", "traditional"];
 

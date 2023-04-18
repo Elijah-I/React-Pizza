@@ -5,7 +5,11 @@ import { useSelector } from "react-redux";
 import logoSrc from "./../../assets/img/pizza-logo.svg";
 
 export const Header = () => {
-  const { totalPrice, totalCount } = useSelector((state) => state.cart);
+  const { items, totalPrice, totalCount } = useSelector((state) => state.cart);
+
+  React.useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(items));
+  }, [items]);
 
   return (
     <div className="header">
