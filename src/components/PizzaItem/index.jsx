@@ -1,10 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/slices/cartSlice";
+import useWhyDidYouUpdate from "ahooks/lib/useWhyDidYouUpdate";
 
 const assocType = ["thin", "traditional"];
 
-export const PizzaItem = ({ id, title, price, imageUrl, types, sizes }) => {
+export const PizzaItem = React.memo((props) => {
+  const { id, title, price, imageUrl, types, sizes } = props;
   const dispath = useDispatch();
   const count =
     useSelector((state) => state.cart.items)
@@ -13,7 +15,7 @@ export const PizzaItem = ({ id, title, price, imageUrl, types, sizes }) => {
   const [selectedType, setSelectedType] = React.useState(0);
   const [selectedSize, setSelectedSize] = React.useState(sizes[0]);
 
-  const addPizza = () => {
+  const addPizza = React.useCallback(() => {
     dispath(
       addItem({
         id,
@@ -25,7 +27,7 @@ export const PizzaItem = ({ id, title, price, imageUrl, types, sizes }) => {
         count: 1
       })
     );
-  };
+  }, [dispath, id, title, price, imageUrl, selectedType, selectedSize]);
 
   return (
     <div className="pizza-block-container">
@@ -81,4 +83,4 @@ export const PizzaItem = ({ id, title, price, imageUrl, types, sizes }) => {
       </div>
     </div>
   );
-};
+});
